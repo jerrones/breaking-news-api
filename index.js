@@ -12,5 +12,6 @@ connectDatabase();
 app.use(express.json());
 
 app.use("/user", userRoute);
+app.use("/auth", authRoute);
 
 app.listen(port, () => console.log(`Servidor rodando na porta ${port}`));
