@@ -1,10 +1,10 @@
 import { Router } from "express";
 import {
-  create,
-  findAll,
-  topNews,
-  findById,
-  searchByTitle,
+    create,
+    findAll,
+    topNews,
+    findById,
+    searchByTitle,
 } from "../controllers/news.controller.js";
 import authMiddleware from "../middlewares/auth.middleware.js";
 

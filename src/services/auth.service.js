@@ -2,7 +2,7 @@ import User from "../models/User.js";
 import jwt from "jsonwebtoken";
 
 export const loginService = (email) =>
-  User.findOne({ email }).select("+password");
+    User.findOne({ email }).select("+password");
 
 export const generateToken = (id) =>
-  jwt.sign({ id }, process.env.SECRET_JWT, { expiresIn: 86400 });
+    jwt.sign({ id }, process.env.SECRET_JWT, { expiresIn: 86400 });

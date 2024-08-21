@@ -2,34 +2,34 @@ import mongoose from "mongoose";
 import * as userService from "../services/user.service.js";
 
 export const validId = (req, res, next) => {
-  try {
-    const id = req.params.id;
+    try {
+        const id = req.params.id;
 
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).send({ message: "Invalid ID" });
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).send({ message: "Invalid ID" });
+        }
+
+        next();
+    } catch (err) {
+        res.status(500).send({ message: err.message });
     }
-
-    next();
-  } catch (err) {
-    res.status(500).send({ message: err.message });
-  }
 };
 
 export const validUser = async (req, res, next) => {
-  try {
-    const id = req.params.id;
+    try {
+        const id = req.params.id;
 
-    const user = await userService.findByIdService(id);
+        const user = await userService.findByIdService(id);
 
-    if (!user) {
-      return res.send(400).send({ message: "User not found" });
+        if (!user) {
+            return res.send(400).send({ message: "User not found" });
+        }
+
+        req.id = id;
+        req.user = user;
+
+        next();
+    } catch (err) {
+        res.status(500).send({ message: err.message });
     }
-
-    req.id = id;
-    req.user = user;
-
-    next();
-  } catch (err) {
-    res.status(500).send({ message: err.message });
-  }
 };
