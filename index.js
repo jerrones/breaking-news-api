@@ -17,6 +17,6 @@ app.use(express.json());
 
 app.use("/user", userRoute);
 app.use("/auth", authRoute);
-app.user("/route", newsRoute);
+app.use("/route", newsRoute);
 
 app.listen(port, () => console.log(`Servidor rodando na porta ${port}`));
