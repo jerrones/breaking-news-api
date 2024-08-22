@@ -5,6 +5,7 @@ import {
     topNewsService,
     findByIdService,
     searchByTitleService,
+    byUserService,
 } from "../services/news.service.js";
 
 export const create = async (req, res) => {
@@ -152,6 +153,30 @@ export const searchByTitle = async (req, res) => {
                 .status(400)
                 .send({ message: "There are no posts with this title" });
         }
+
+        res.send({
+            results: news.map((item) => ({
+                id: item._id,
+                title: item.title,
+                content: item.content,
+                banner: item.banner,
+                likes: item.likes,
+                comments: item.comments,
+                name: item.user.name,
+                userName: item.user.username,
+                userAvatar: item.user.avatar,
+            })),
+        });
+    } catch (err) {
+        res.status(500).send({ message: err.message });
+    }
+};
+
+export const byUser = async (req, res) => {
+    try {
+        const id = req.userId;
+
+        const news = await byUserService(id);
 
         res.send({
             results: news.map((item) => ({
