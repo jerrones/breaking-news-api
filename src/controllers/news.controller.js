@@ -6,6 +6,7 @@ import {
     findByIdService,
     searchByTitleService,
     byUserService,
+    updateService,
 } from "../services/news.service.js";
 
 export const create = async (req, res) => {
@@ -191,6 +192,34 @@ export const byUser = async (req, res) => {
                 userAvatar: item.user.avatar,
             })),
         });
+    } catch (err) {
+        res.status(500).send({ message: err.message });
+    }
+};
+
+export const update = async (req, res) => {
+    try {
+        const { title, content, banner } = req.body;
+
+        const { id } = req.params;
+
+        if (!title && !content && !banner) {
+            res.status(400).send({
+                message: "Submit at least one field to update the post",
+            });
+        }
+
+        const news = await findByIdService(id);
+
+        if (news.user._id != req.userId) {
+            return res.status(400).send({
+                message: "You didn't update this post",
+            });
+        }
+
+        await updateService(id, title, content, banner);
+
+        res.send({ message: "Post successfully updated!" });
     } catch (err) {
         res.status(500).send({ message: err.message });
     }
